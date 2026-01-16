@@ -174,6 +174,49 @@
 
     </div>
   </div>
+  <script>
+    // Fonction pour initialiser l'accordéon
+    function initAccordion() {
+      const isMobile = window.innerWidth <= 900;
+      const headers = document.querySelectorAll('.sidebar .competence h3');
+
+      headers.forEach(function (header) {
+        // Supprimer les anciens listeners
+        const newHeader = header.cloneNode(true);
+        header.parentNode.replaceChild(newHeader, header);
+
+        if (isMobile) {
+          newHeader.addEventListener('click', function () {
+            const section = this.parentElement;
+            const isOpen = section.classList.contains('accordion-open');
+
+            // Fermer toutes les sections
+            document.querySelectorAll('.sidebar .competence').forEach(function (sec) {
+              sec.classList.remove('accordion-open');
+            });
+
+            // Ouvrir la section cliquée si elle était fermée
+            if (!isOpen) {
+              section.classList.add('accordion-open');
+            }
+          });
+        } else {
+          // En desktop, tout est ouvert
+          newHeader.parentElement.classList.add('accordion-open');
+        }
+      });
+    }
+
+    // Initialiser au chargement
+    document.addEventListener('DOMContentLoaded', initAccordion);
+
+    // Réinitialiser au redimensionnement
+    let resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(initAccordion, 250);
+    });
+  </script>
 </body>
 
 </html>
